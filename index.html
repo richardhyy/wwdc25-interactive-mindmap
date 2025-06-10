@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WWDC 2025 Keynote Mind Map</title>
+    <meta name="description" content="A mind map describing all announcements from Apple's WWDC 2025 Keynote 101. Explore the new Apple Intelligence, Liquid Design, iOS 26, macOS Tahoe, iPadOS 26, watchOS 26, tvOS 26, visionOS 26, and developer updates.">
+    <meta name="keywords" content="WWDC 2025, Apple Keynote, Apple Intelligence, Universal Design Language, Liquid Glass, iOS 26, macOS Tahoe, watchOS 26, tvOS 26, iPadOS 26, visionOS 26, version 26, Siri, Genmoji, Foundation Models, CarPlay, Apple Developer, Swift Assist, Icon Composer, Mind Map, Keynote Summary, Apple Updates">
+    <meta name="author" content="[Your Name or Website Name]">
+    <style>
+        :root {
+            --background-color: #f0f2f5;
+            --text-color: #1d1d1f;
+            --link-color: #d1d1d6;
+            --node-background: rgba(255, 255, 255, 0.6);
+            --node-border: #e8e8ed;
+            --node-shadow: rgba(0, 0, 0, 0.05) 0px 4px 12px;
+            --expand-indicator: #007aff;
+            --expand-indicator-bg: rgba(0, 122, 255, 0.1);
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --font-size-normal: 14px;
+            --font-size-small: 12px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --background-color: #161617;
+                --text-color: #f5f5f7;
+                --link-color: #424245;
+                --node-background: rgba(50, 50, 52, 0.65);
+                --node-border: #3a3a3c;
+                --node-shadow: rgba(0, 0, 0, 0.2) 0px 8px 24px;
+                --expand-indicator: #0a84ff;
+                --expand-indicator-bg: rgba(10, 132, 255, 0.15);
+            }
+        }
+
+        html {
+            height: 100%;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        #mindmap-container {
+            width: 100%;
+            height: 100%;
+        }
+
+        .node {
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .node-rect {
+            stroke: var(--node-border);
+            stroke-width: 1px;
+            fill: var(--node-background);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            box-shadow: var(--node-shadow);
+        }
+
+        .node text {
+            font-size: var(--font-size-normal);
+            font-weight: 500;
+            fill: var(--text-color);
+            dominant-baseline: middle;
+            pointer-events: none;
+        }
+
+        .node .node-title {
+            font-weight: 600;
+        }
+        
+        .node .expand-indicator,
+        .node .expand-indicator-bg {
+            transform-origin: 50% 50%;
+            transform-box: fill-box;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+        
+        .node .expand-indicator {
+            fill: none;
+            stroke: var(--expand-indicator);
+            stroke-width: 1.5px;
+            opacity: 0.8;
+        }
+
+        .node .expand-indicator-bg {
+            fill: var(--expand-indicator-bg);
+            stroke: none;
+        }
+
+        .node:hover .expand-indicator {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+        
+        .node:hover .expand-indicator-bg {
+            transform: scale(1.1);
+        }
+
+        .link {
+            fill: none;
+            stroke: var(--link-color);
+            stroke-width: 1.5px;
+        }
+
+        #tooltip {
+            position: absolute;
+            visibility: hidden;
+            opacity: 0;
+            padding: 10px 15px;
+            border-radius: 12px;
+            background: var(--node-background);
+            border: 1px solid var(--node-border);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            box-shadow: var(--node-shadow);
+            max-width: 300px;
+            font-size: var(--font-size-small);
+            line-height: 1.5;
+            pointer-events: none;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            transform: translateY(10px);
+            z-index: 1000;
+        }
+
+        #tooltip.visible {
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        #tooltip ul {
+            margin: 0;
+            padding-left: 18px;
+        }
+
+        #tooltip li {
+            margin-bottom: 4px;
+        }
+        
+        #tooltip img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 5px;
+            margin-top: 4px;
+            margin-bottom: 4px;
+        }
+        
+        #tooltip .tooltip-image-container + ul {
+            margin-top: 6px;
+        }
+        
+        #loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.2em;
+            color: #888;
+        }
+
+        #lang-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            background: var(--node-background);
+            border: 1px solid var(--node-border);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            box-shadow: var(--node-shadow);
+            border-radius: 10px;
+            overflow: hidden;
+            z-index: 1001;
+        }
+
+        #lang-switcher button {
+            background: transparent;
+            border: none;
+            padding: 8px 16px;
+            font-family: var(--font-family);
+            color: var(--text-color);
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: background-color 0.2s ease, color 0.2s ease;
+            line-height: 1.2;
+        }
+        
+        #lang-switcher button:first-child {
+            border-right: 1px solid var(--node-border);
+        }
+
+        #lang-switcher button.active {
+            background-color: var(--expand-indicator-bg);
+            color: var(--expand-indicator);
+            font-weight: 600;
+        }
+
+        #lang-switcher button:not(.active):hover {
+            background-color: rgba(128, 128, 128, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div id="lang-switcher">
+        <button data-lang="en">EN</button>
+        <button data-lang="zh">ZH</button>
+    </div>
+
+    <div id="loading">Loading Mind Map...</div>
+    <div id="mindmap-container"></div>
+    <div id="tooltip"></div>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script>
+    // --- DEBOUNCE UTILITY (NEW) ---
+    // This helper function limits how often a function can be called.
+    function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const context = this;
+            const later = () => {
+                timeout = null;
+                func.apply(context, args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+
+    // --- DATA SOURCE ---
+    const DATA_FILES = {
+        en: 'wwdc2025_mindmap.md',
+        zh: 'wwdc2025_mindmap_zh.md'
+    };
+    const IMAGE_PATH_PREFIX = 'video_frames/';
+    let currentLang;
+    let svg; // (MODIFIED) Make svg accessible to the resize handler
+
+    // --- PARSING ---
+    function parseMarkdownToJSON(markdown) {
+        const lines = markdown.split('\n').filter(line => {
+            const trimmed = line.trim();
+            return trimmed !== '' && trimmed !== '...';
+        });
+
+        if (lines.length === 0) return null;
+
+        const getIndent = (line) => line.match(/^\s*/)[0].length;
+        
+        const firstLineText = lines[0].trim().replace(/^#+\s*/, '');
+        const rootNode = { name: firstLineText, children: [] };
+        
+        const parentStack = [{ node: rootNode, indent: -1 }];
+
+        lines.slice(1).forEach(line => {
+            const indent = getIndent(line);
+            let text = line.trim();
+            let imageUrl = null;
+            
+            const imageRegex = /!\[.*?\]\((.*?)\)/;
+            const imageMatch = text.match(imageRegex);
+            if (imageMatch) {
+                imageUrl = `${IMAGE_PATH_PREFIX}${imageMatch[1]}`;
+                text = text.replace(imageRegex, '').trim();
+            }
+
+            text = text
+                .replace(/^#+\s*/, '') 
+                .replace(/^\*\*([^*]+)\*\*$/, '$1') 
+                .replace(/^\*\*([^*]+)\*\*:?/, '$1') 
+                .replace(/^-\s*\*\*([^*]+)\*\*:?/, '$1') 
+                .replace(/^-\s*/, '') 
+                .replace(/^\*\s*/, '') 
+                .replace(/^\s*\*\*([^*]+)\*\*\s*$/, '$1') 
+                .replace(/`([^`]+)`/g, '$1') 
+                .replace(/\\\//g, '/') 
+                .trim();
+
+            let keywords = [];
+            const keywordMatch = text.match(/->\s*Keywords:\s*(.*)/);
+            if (keywordMatch) {
+                text = text.substring(0, keywordMatch.index).trim();
+                keywords = keywordMatch[1].split(',')
+                    .map(k => k.trim().replace(/`/g, ''))
+                    .filter(k => k);
+            }
+            
+            text = text
+                .replace(/:$/, '')
+                .replace(/\.$/, '')
+                .trim();
+
+            if (!text) return;
+
+            const newNode = { name: text, children: [] };
+            if (keywords.length > 0) {
+                newNode.keywords = keywords;
+            }
+            if (imageUrl) {
+                newNode.imageUrl = imageUrl;
+            }
+
+            while (parentStack[parentStack.length - 1].indent >= indent) {
+                parentStack.pop();
+            }
+
+            parentStack[parentStack.length - 1].node.children.push(newNode);
+            parentStack.push({ node: newNode, indent });
+        });
+        
+        return rootNode;
+    }
+
+    // --- LANGUAGE CONTROL ---
+    function getLangFromURL() {
+        const params = new URLSearchParams(window.location.search);
+        const lang = params.get('lang');
+        return DATA_FILES[lang] ? lang : 'en'; // Default to English
+    }
+
+    function updateLangSwitcherUI(lang) {
+        document.querySelectorAll('#lang-switcher button').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.lang === lang);
+        });
+    }
+    
+    function switchLanguage(newLang) {
+        if (newLang === currentLang) return;
+        
+        currentLang = newLang;
+        
+        const url = new URL(window.location);
+        url.searchParams.set('lang', newLang);
+        history.pushState({lang: newLang}, '', url);
+        
+        updateLangSwitcherUI(newLang);
+        fetchAndRenderForLang(newLang);
+    }
+
+    // --- DATA FETCHING & RENDERING ---
+    async function fetchAndRenderForLang(lang) {
+        const loadingEl = document.getElementById('loading');
+        
+        loadingEl.innerText = 'Loading Mind Map...';
+        loadingEl.style.display = 'block';
+        
+        // (MODIFIED) Clearing the container is now handled by renderMindMap
+        
+        try {
+            const markdownUrl = DATA_FILES[lang];
+            const response = await fetch(markdownUrl);
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            const markdown = await response.text();
+            const data = parseMarkdownToJSON(markdown);
+            
+            if (data) {
+                loadingEl.style.display = 'none';
+                renderMindMap(data);
+            } else {
+                loadingEl.innerText = 'Failed to parse mind map data.';
+            }
+        } catch (error) {
+            console.error("Error fetching or parsing data:", error);
+            loadingEl.innerText = 'Error loading mind map. See console for details.';
+        }
+    }
+
+    // --- RESIZE HANDLER (NEW) ---
+    // This function updates the SVG dimensions when the window is resized.
+    function handleResize() {
+        if (!svg) return; // Exit if svg is not yet defined
+        const container = document.getElementById('mindmap-container');
+        const width = container.clientWidth;
+        const height = container.clientHeight;
+        
+        // Update the svg element's dimensions and its viewBox
+        svg.attr("width", width)
+           .attr("height", height)
+           .attr("viewBox", [-width / 2, -height / 2, width, height]);
+    }
+
+    // --- VISUALIZATION ---
+    function renderMindMap(data) {
+        const container = document.getElementById('mindmap-container');
+        container.innerHTML = ''; // (MODIFIED) Clear previous SVG on re-render
+
+        const width = container.clientWidth;
+        const height = container.clientHeight;
+        const baseNodeHeight = 44;
+        const nodePadding = 15;
+        const textSidePadding = 15;
+        const indicatorSize = 12;
+        const indicatorPadding = 10;
+        const lineHeight = 18;
+        
+        // (MODIFIED) Assign to the script-scoped svg variable
+        svg = d3.select("#mindmap-container").append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .attr("viewBox", [-width / 2, -height / 2, width, height]);
+
+        const g = svg.append("g");
+        
+        const tooltip = d3.select("#tooltip");
+
+        const zoom = d3.zoom()
+            .scaleExtent([0.3, 3])
+            .on("start", () => {
+                tooltip.classed("visible", false);
+            })
+            .on("zoom", (event) => {
+                g.attr("transform", event.transform);
+            });
+        
+        svg.call(zoom);
+
+        function getTextDimensions(text, fontSize = 14, hasIndicator) {
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            context.font = `${fontSize}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif`;
+            
+            const indicatorSpace = hasIndicator ? (indicatorSize * 2 + indicatorPadding) : 0;
+            const maxTextWidth = 280 - (textSidePadding * 2) - indicatorSpace;
+            const words = text.split(' ');
+            const lines = [];
+            let currentLine = [];
+            
+            for (const word of words) {
+                const testLine = [...currentLine, word].join(' ');
+                const testWidth = context.measureText(testLine).width;
+                
+                if (testWidth > maxTextWidth && currentLine.length > 0) {
+                    lines.push(currentLine.join(' '));
+                    currentLine = [word];
+                } else {
+                    currentLine.push(word);
+                }
+            }
+            if (currentLine.length > 0) lines.push(currentLine.join(' '));
+            
+            const textBlockWidth = lines.length > 0 ? Math.max(...lines.map(line => context.measureText(line).width)) : 0;
+            
+            return {
+                width: textBlockWidth + (textSidePadding * 2) + indicatorSpace,
+                height: Math.max(baseNodeHeight, (lines.length * lineHeight) + (nodePadding * 2)),
+                lines: lines
+            };
+        }
+
+        const tree = d3.tree().nodeSize([80, 350]);
+        const root = d3.hierarchy(data);
+        
+        root.x0 = 0;
+        root.y0 = 0;
+
+        root.eachBefore(d => {
+            const hasIndicator = d.depth > 0 && (d.data.children && d.data.children.length > 0);
+            const dims = getTextDimensions(d.data.name, 14, hasIndicator);
+            d.data.width = dims.width;
+            d.data.height = dims.height;
+            d.data.textLines = dims.lines;
+        });
+
+        if (root.children) {
+            root.children.forEach(collapse);
+        }
+        
+        let i = 0;
+        
+        update(root);
+        
+        function collapse(d) {
+            if (d.children) {
+                d._children = d.children;
+                d._children.forEach(collapse);
+                d.children = null;
+            }
+        }
+
+        function update(source) {
+            const duration = 250;
+            const nodes = root.descendants().reverse();
+            const links = root.links();
+
+            tree(root);
+
+            // --- SIBLING ALIGNMENT ---
+            root.each(d => {
+                if (!d.parent) {
+                    d.data.alignShift = 0;
+                }
+                if (d.children) {
+                    const siblings = d.children;
+                    if (!siblings.length) return;
+
+                    const maxWidth = Math.max(...siblings.map(s => s.data.width));
+                    
+                    siblings.forEach(s => {
+                        s.data.alignShift = (s.data.width - maxWidth) / 2;
+                    });
+                }
+            });
+
+            nodes.forEach(d => {
+                if (d.parent && d.parent.children && d.parent.children.length > 1) {
+                    const siblings = d.parent.children;
+                    const siblingIndex = siblings.indexOf(d);
+                    const totalBlockHeight = siblings.reduce((sum, sNode) => sum + sNode.data.height + 10, 0) - 10;
+                    let currentYOffset = -totalBlockHeight / 2;
+                    for (let j = 0; j < siblingIndex; j++) {
+                        currentYOffset += siblings[j].data.height + 10;
+                    }
+                    d.x = d.parent.x + currentYOffset + d.data.height / 2;
+                } else if (d.parent) {
+                     d.x = d.parent.x;
+                }
+            });
+
+            const transition = svg.transition().duration(duration);
+
+            const node = g.selectAll("g.node")
+                .data(nodes, d => d.id || (d.id = ++i));
+
+            const nodeEnter = node.enter().append("g")
+                .attr("class", "node")
+                .attr("transform", d => `translate(${source.y0},${source.x0})`)
+                .attr("fill-opacity", 0)
+                .attr("stroke-opacity", 0)
+                .on("click", (event, d) => {
+                    if (d.children) {
+                        d._children = d.children;
+                        d.children = null;
+                    } else if (d._children) {
+                        d.children = d._children;
+                        d._children = null;
+                    } else {
+                        return;
+                    }
+                    update(d);
+                })
+                .on("mouseover", function(event, d) {
+                    if (d.data.imageUrl || (d.data.keywords && d.data.keywords.length > 0)) {
+                        let tooltipContent = '';
+                        if (d.data.imageUrl) {
+                            tooltipContent += `<div class="tooltip-image-container"><img src="${d.data.imageUrl}" alt="${d.data.name} detail" loading="lazy"></div>`;
+                        }
+                        if (d.data.keywords && d.data.keywords.length > 0) {
+                            tooltipContent += `<ul>${d.data.keywords.map(k => `<li>${k}</li>`).join('')}</ul>`;
+                        }
+                        
+                        if (tooltipContent) {
+                            tooltip.html(tooltipContent);
+                            
+                            tooltip.style('visibility', 'hidden').classed('visible', true);
+                            const tooltipRect = tooltip.node().getBoundingClientRect();
+                            tooltip.style('visibility', '').classed('visible', false);
+
+                            const nodeRect = this.getBoundingClientRect();
+                            const viewportWidth = window.innerWidth;
+                            const viewportHeight = window.innerHeight;
+                            const margin = 15;
+
+                            let finalLeft, finalTop;
+
+                            finalTop = nodeRect.top;
+                            if (finalTop + tooltipRect.height > viewportHeight - margin) {
+                                finalTop = viewportHeight - tooltipRect.height - margin;
+                            }
+                            if (finalTop < margin) {
+                                finalTop = margin;
+                            }
+
+                            const preferredLeft = nodeRect.right + margin;
+                            if (preferredLeft + tooltipRect.width <= viewportWidth - margin) {
+                                finalLeft = preferredLeft;
+                            } else {
+                                const alternateLeft = nodeRect.left - tooltipRect.width - margin;
+                                if (alternateLeft >= margin) {
+                                    finalLeft = alternateLeft;
+                                } else {
+                                    finalLeft = viewportWidth - tooltipRect.width - margin;
+                                }
+                            }
+
+                            tooltip
+                                .style("left", `${finalLeft}px`)
+                                .style("top", `${finalTop}px`)
+                                .classed("visible", true);
+                        }
+                    }
+                })
+                .on("mouseout", function() {
+                    tooltip.classed("visible", false);
+                });
+            
+            nodeEnter.append("rect")
+                .attr("class", "node-rect")
+                .attr("width", d => d.data.width)
+                .attr("height", d => d.data.height)
+                .attr("x", d => -d.data.width / 2)
+                .attr("y", d => -d.data.height / 2)
+                .attr("rx", 12)
+                .attr("ry", 12);
+
+            nodeEnter.each(function(d) {
+                const nodeGroup = d3.select(this);
+                const textLines = d.data.textLines;
+                const hasIndicator = d.depth > 0 && (d.children || d._children);
+                let textCenterX = 0;
+
+                if (hasIndicator) {
+                    const indicatorSpace = (indicatorSize * 2) + indicatorPadding;
+                    textCenterX = (textSidePadding - indicatorSpace) / 2;
+                }
+
+                textLines.forEach((line, idx) => {
+                    const textElement = nodeGroup.append("text")
+                        .attr("class", d.depth === 0 ? "node-title" : "")
+                        .attr("x", textCenterX)
+                        .attr("y", -d.data.height / 2 + nodePadding + (idx * lineHeight) + lineHeight / 2)
+                        .attr("text-anchor", "middle")
+                        .text(line);
+                    
+                    textElement.clone(true).lower()
+                        .attr("stroke-linejoin", "round")
+                        .attr("stroke-width", 3)
+                        .attr("stroke", "var(--background-color)")
+                        .attr("opacity", 0.8);
+                });
+            });
+            
+            const indicatorX = d => d.data.width / 2 - indicatorSize - indicatorPadding;
+
+            nodeEnter.append("circle")
+                .attr("class", "expand-indicator-bg")
+                .attr("r", indicatorSize)
+                .attr("cx", indicatorX)
+                .attr("cy", 0)
+                .style("display", d => d.depth === 0 || (!d.children && !d._children) ? "none" : "block");
+                
+            nodeEnter.append("path")
+                .attr("class", "expand-indicator")
+                .attr("d", d => {
+                    const cx = indicatorX(d);
+                    const cy = 0;
+                    const arm = indicatorSize * 0.4;
+                    return `M ${cx-arm} ${cy} L ${cx+arm} ${cy} M ${cx} ${cy-arm} L ${cx} ${cy+arm}`;
+                })
+                .style("display", d => d.depth === 0 || (!d.children && !d._children) ? "none" : "block");
+                
+            const nodeUpdate = node.merge(nodeEnter).transition(transition)
+                .attr("transform", d => `translate(${d.y + (d.data.alignShift || 0)},${d.x})`)
+                .attr("fill-opacity", 1)
+                .attr("stroke-opacity", 1);
+                
+            nodeUpdate.select('.expand-indicator')
+                .attr("d", d => {
+                    const cx = indicatorX(d);
+                    const cy = 0;
+                    const arm = indicatorSize * 0.4;
+                    if (d._children) { // Collapsed state (show '+')
+                        return `M ${cx-arm} ${cy} L ${cx+arm} ${cy} M ${cx} ${cy-arm} L ${cx} ${cy+arm}`;
+                    } else { // Expanded state (show '-')
+                        return `M ${cx-arm} ${cy} L ${cx+arm} ${cy}`;
+                    }
+                });
+            nodeUpdate.selectAll('.expand-indicator, .expand-indicator-bg')
+                 .style("display", d => d.depth === 0 || (!d.children && !d._children) ? "none" : "block");
+
+            const nodeExit = node.exit().transition(transition)
+                .attr("transform", d => `translate(${source.y},${source.x})`)
+                .attr("fill-opacity", 0)
+                .attr("stroke-opacity", 0)
+                .remove();
+            
+            const linkPathGenerator = d3.linkHorizontal().x(p => p.y).y(p => p.x);
+
+            function getAttachPoint(node, side) {
+                const effectiveY = node.y + (node.data.alignShift || 0);
+                let yAttach = effectiveY;
+                if (side === 'source') {
+                    yAttach += node.data.width / 2;
+                } else { // 'target'
+                    yAttach -= node.data.width / 2;
+                }
+                return { x: node.x, y: yAttach };
+            }
+            
+            const link = g.selectAll("path.link")
+                .data(links, d => d.target.id);
+                
+            const linkEnter = link.enter().insert("path", "g")
+                .attr("class", "link")
+                .attr("d", d => {
+                    const parentRegPoint = getAttachPoint(d.source, 'source');
+                    return linkPathGenerator({source: parentRegPoint, target: parentRegPoint});
+                });
+
+            link.merge(linkEnter).transition(transition)
+                .attr("d", d => linkPathGenerator({
+                    source: getAttachPoint(d.source, 'source'),
+                    target: getAttachPoint(d.target, 'target')
+                }));
+
+            link.exit().transition(transition)
+                .attr("d", d => {
+                    const parentRegPoint = getAttachPoint(d.source, 'source');
+                    return linkPathGenerator({source: parentRegPoint, target: parentRegPoint});
+                })
+                .remove();
+            
+            root.eachBefore(d => {
+                d.x0 = d.x;
+                d.y0 = d.y;
+            });
+        }
+    }
+    
+    // --- INITIALIZATION ---
+    function init() {
+        document.querySelectorAll('#lang-switcher button').forEach(btn => {
+            btn.addEventListener('click', () => switchLanguage(btn.dataset.lang));
+        });
+        
+        window.addEventListener('popstate', (event) => {
+            const newLang = getLangFromURL();
+            if (newLang !== currentLang) {
+                currentLang = newLang;
+                updateLangSwitcherUI(newLang);
+                fetchAndRenderForLang(newLang);
+            }
+        });
+
+        // (NEW) Add a debounced resize listener
+        window.addEventListener('resize', debounce(handleResize, 150));
+
+        currentLang = getLangFromURL();
+        updateLangSwitcherUI(currentLang);
+        fetchAndRenderForLang(currentLang);
+    }
+
+    document.addEventListener('DOMContentLoaded', init);
+
+    </script>
+</body>
+</html>
