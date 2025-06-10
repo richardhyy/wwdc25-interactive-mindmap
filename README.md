@@ -2,6 +2,8 @@
 
 This project is an interactive visualization of the WWDC 2025 keynote announcement, built with D3.js.
 
+![Screenshot](screenshot.jpg)
+
 ### The Idea
 
 It's a proof-of-concept to automate the creation of a visual summary. The workflow is:
